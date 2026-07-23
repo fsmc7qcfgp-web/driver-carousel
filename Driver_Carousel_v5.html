@@ -7,26 +7,30 @@
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; }
-.scene { width: 100vw; height: 100vh; display: flex; flex-direction: column; background: #f5f5f3; }
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; background: #fff; border-bottom: 1px solid #e8e8e8; flex-shrink: 0; }
-.driver-mark { font-size: 18px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a3a6b; }
-.losch-mark { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #1a3a6b; opacity: 0.6; }
+/* position:fixed makes the scene fill the sandbox viewport no matter how
+   the HTML Content visual sizes its internal iframe */
+.scene { position: fixed; inset: 0; display: flex; flex-direction: column; background: #f5f5f3; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(8px,1.8vh,16px) clamp(16px,2.5vw,32px); background: #fff; border-bottom: 1px solid #e8e8e8; flex-shrink: 0; }
+.driver-mark { font-size: clamp(14px,2.4vh,20px); font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a3a6b; }
+.losch-mark { font-size: clamp(8px,1.4vh,11px); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #1a3a6b; opacity: 0.6; }
+/* flex:1 + centered column = carousel always vertically centered in the
+   space below the top bar */
 .stage-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
-.hint { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 20px; }
-.stage { position: relative; width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; }
-.arrow { position: absolute; top: 50%; transform: translateY(-50%); color: #1a3a6b; cursor: pointer; user-select: none; z-index: 20; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.15s, opacity 0.15s; opacity: 0.45; }
+.hint { font-size: clamp(9px,1.5vh,12px); letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: clamp(10px,2.5vh,24px); }
+.stage { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
+.arrow { position: absolute; top: 50%; transform: translateY(-50%); color: #1a3a6b; cursor: pointer; user-select: none; z-index: 20; width: clamp(38px,7vh,56px); height: clamp(38px,7vh,56px); display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.15s, opacity 0.15s; opacity: 0.45; }
 .arrow:hover { background: rgba(26,58,107,0.08); opacity: 1; }
-.arrow.left { left: 16px; }
-.arrow.right { right: 16px; }
+.arrow.left { left: clamp(8px,2vw,24px); }
+.arrow.right { right: clamp(8px,2vw,24px); }
 .cards { position: relative; width: 100%; height: 100%; }
-.card { position: absolute; left: 50%; top: 50%; border-radius: 20px; background: #fff; border: 1px solid rgba(0,0,0,0.07); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.55s ease, filter 0.55s ease, box-shadow 0.25s ease; }
+.card { position: absolute; left: 50%; top: 50%; border-radius: 20px; background: #fff; border: 1px solid rgba(0,0,0,0.07); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.55s ease, filter 0.55s ease, box-shadow 0.25s ease, width 0.55s ease, height 0.55s ease; }
 .card.front:hover { box-shadow: 0 16px 48px rgba(26,58,107,0.13); }
-.card-inner { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 24px; }
+.card-inner { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 12%; }
 .card-inner img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-.dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; max-width: 220px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: #ccc; transition: background 0.3s, transform 0.3s; cursor: pointer; }
+.dots { display: flex; justify-content: center; gap: 8px; margin-top: clamp(10px,2.5vh,24px); flex-wrap: wrap; max-width: 260px; }
+.dot { width: clamp(5px,0.9vh,7px); height: clamp(5px,0.9vh,7px); border-radius: 50%; background: #ccc; transition: background 0.3s, transform 0.3s; cursor: pointer; }
 .dot.active { background: #1a3a6b; transform: scale(1.4); }
-.brand-name { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-top: 16px; }
+.brand-name { font-size: clamp(9px,1.6vh,13px); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-top: clamp(8px,2vh,18px); }
 </style>
 </head>
 <body>
@@ -37,7 +41,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; }
   </div>
   <div class='stage-wrap'>
     <div class='hint'>Select a brand</div>
-    <div class='stage'>
+    <div class='stage' id='stage'>
       <div class='arrow left' onclick='rotate(-1)'>
         <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'></polyline></svg>
       </div>
@@ -51,7 +55,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; }
   </div>
 </div>
 <script>
-const BASE = 'https://fsmc7qcfgp-web.github.io/driver-carousel/';
+const BASE = 'https://raw.githubusercontent.com/fsmc7qcfgp-web/driver-carousel/main/';
 const brands = [
   { name: 'Porsche',          src: BASE + 'Porsche.png' },
   { name: 'Volkswagen',       src: BASE + 'Volkswagen.png' },
@@ -65,7 +69,25 @@ const brands = [
 ];
 let current = 0, animating = false;
 function mod(n,m){ return ((n%m)+m)%m; }
+ 
+/* All dimensions derived from the viewport so the carousel scales with
+   the visual instead of using fixed pixel sizes. */
+function metrics() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  // front card: limited by both height and width, clamped to sane bounds
+  const front = Math.max(120, Math.min(vh * 0.42, vw * 0.20, 320));
+  return {
+    front:  front,
+    side:   front * 0.72,
+    far:    front * 0.55,
+    xOff:   Math.min(front * 0.92, vw * 0.16),
+    stageH: front * 1.25
+  };
+}
+ 
 function render() {
+  const m = metrics();
+  document.getElementById('stage').style.height = m.stageH + 'px';
   const track = document.getElementById('cards');
   const dotsEl = document.getElementById('dots');
   const nameEl = document.getElementById('brandName');
@@ -81,11 +103,11 @@ function render() {
     const b = brands[i];
     const isFront = pos === 0;
     const scale   = isFront ? 1    : (absp === 1 ? 0.65 : 0.45);
-    const xOff    = pos * 175;
+    const xOff    = pos * m.xOff;
     const zIndex  = isFront ? 5    : (absp === 1 ? 3 : 1);
     const opacity = isFront ? 1    : (absp === 1 ? 0.40 : 0.18);
     const blur    = isFront ? 0    : (absp === 1 ? 2 : 5);
-    const size    = isFront ? 200  : (absp === 1 ? 150 : 110);
+    const size    = isFront ? m.front : (absp === 1 ? m.side : m.far);
     const shadow  = isFront ? '0 8px 28px rgba(0,0,0,0.10)' : 'none';
     const card = document.createElement('div');
     card.className = 'card' + (isFront ? ' front' : '');
@@ -124,7 +146,10 @@ function goTo(idx) {
 function selectBrand(name) {
   alert('Opening: ' + name);
 }
+let rT;
+window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(render, 120); });
 render();
 </script>
 </body>
 </html>
+ 
