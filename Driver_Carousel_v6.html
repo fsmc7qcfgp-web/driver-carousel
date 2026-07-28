@@ -7,14 +7,12 @@
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; }
-/* position:fixed makes the scene fill the sandbox viewport no matter how
-   the HTML Content visual sizes its internal iframe */
+
 .scene { position: fixed; inset: 0; display: flex; flex-direction: column; background: #f5f5f3; }
 .topbar { display: flex; align-items: center; justify-content: space-between; padding: clamp(8px,1.8vh,16px) clamp(16px,2.5vw,32px); background: #fff; border-bottom: 1px solid #e8e8e8; flex-shrink: 0; }
 .driver-mark { font-size: clamp(14px,2.4vh,20px); font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a3a6b; }
 .losch-mark { font-size: clamp(8px,1.4vh,11px); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #1a3a6b; opacity: 0.6; }
-/* flex:1 + centered column = carousel always vertically centered in the
-   space below the top bar */
+
 .stage-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
 .hint { font-size: clamp(9px,1.5vh,12px); letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: clamp(10px,2.5vh,24px); }
 .stage { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
@@ -56,9 +54,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; }
 </div>
 <script>
 const BASE = 'https://raw.githubusercontent.com/fsmc7qcfgp-web/driver-carousel/main/';
-/* NOTE: raw.githubusercontent.com filenames are CASE-SENSITIVE and any
-   space in a filename must be percent-encoded as %20. These must match the
-   repo exactly ('Seat.png', not 'SEAT.png'). */
+
 const brands = [
   { name: 'Porsche',          src: BASE + 'Porsche.png' },
   { name: 'Volkswagen',       src: BASE + 'Volkswagen.png' },
@@ -73,8 +69,7 @@ const brands = [
 let current = 0, animating = false;
 function mod(n,m){ return ((n%m)+m)%m; }
  
-/* All dimensions derived from the viewport so the carousel scales with
-   the visual instead of using fixed pixel sizes. */
+
 function metrics() {
   const vw = window.innerWidth, vh = window.innerHeight;
   // front card: limited by both height and width, clamped to sane bounds
